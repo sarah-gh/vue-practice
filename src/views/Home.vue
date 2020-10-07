@@ -2,7 +2,8 @@
 <div class="home container">
     <div class=" row justify-content-center">
         <add-appointment @add="addItem" />
-        <AppointmentsList :appointments="appointments" @remove="removeItem" @edit="editItem" />
+        <search-appointment @searchRecords="SearchAppointment" :myKey="filterKay" :myDir="filterDir" @requestKey="changeKey" @requestDir="changeDir" />
+        <AppointmentsList :appointments="filteredApts" @remove="removeItem" @edit="editItem" />
     </div>
 </div>
 </template>
@@ -11,7 +12,7 @@
 // @ is an alias to /src
 import AppointmentsList from "../components/AppointmentsList";
 import AddAppointment from "../components/AddAppointment";
-
+import SearchAppointment from '@/components/SearchAppointment'
 import _ from "lodash";
 import axios from "axios";
 export default {
@@ -20,12 +21,35 @@ export default {
         return {
             title: "Appointment List",
             appointments: [],
+            filterKay: "petName",
+            filterDir: "asc",
+            searchTerms: "",
             aptIndex: 0,
         }
     },
     components: {
         AppointmentsList,
-        AddAppointment
+        AddAppointment,
+        SearchAppointment
+    },
+    computed: {
+        searchedApts() {
+            return this.appointments.filter(item => {
+                return (
+                    item.petName.toLowerCase().match(this.searchTerms.toLowerCase()) ||
+                    item.petOwner.toLowerCase().match(this.searchTerms.toLowerCase()) ||
+                    item.aptNotes.toLowerCase().match(this.searchTerms.toLowerCase())
+                );
+            });
+        },
+        filteredApts() {
+            return _.orderBy(
+                this.searchedApts,
+                item => {
+                    return item[this.filterKay].toLowerCase();
+                }, this.filterDir
+            );
+        }
     },
     mounted() {
         axios.get("./data/appointments.json")
@@ -36,6 +60,15 @@ export default {
             })));
     },
     methods: {
+        changeKey(value) {
+            this.filterKay = value;
+        },
+        changeDir(value) {
+            this.filterDir = value;
+        },
+        SearchAppointment(terms) {
+            this.searchTerms = terms;
+        },
         addItem(apt) {
             apt.aptId = this.aptIndex;
             this.aptIndex++;
