@@ -10,17 +10,17 @@
             </button>
 
             <div class="dropdown-menu dropdown-menu-right">
-                <a href="#" class="dropdown-item d-flex justify-content-between" id="petName" @click="$emit('requestKey', 'petName')">
+                <a href="#" class="dropdown-item d-flex justify-content-between" id="petName" @click="$emit('requestkey', 'petName')">
                     Pet Name
                     <font-awesome-icon icon="check" v-if="myKey==='petName'" />
                 </a>
 
-                <a class="dropdown-item d-flex justify-content-between" href="#" id="aptDate" @click="$emit('requestKey', 'aptDate')">
+                <a class="dropdown-item d-flex justify-content-between" href="#" id="aptDate" @click="$emit('requestkey', 'aptDate')">
                     Date
                     <font-awesome-icon icon="check" v-if="myKey==='aptDate'" />
                 </a>
 
-                <a href="#" class="dropdown-item d-flex justify-content-between" id="petOwner" @click="$emit('requestKey', 'petOwner')">
+                <a href="#" class="dropdown-item d-flex justify-content-between" id="petOwner" @click="$emit('requestkey', 'petOwner')">
                     Owner
                     <font-awesome-icon icon="check" v-if="myKey==='petOwner'" />
                 </a>

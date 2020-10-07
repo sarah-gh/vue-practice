@@ -1,15 +1,21 @@
 <template>
-<div id="app" class=" container">
-    <div id="nav">
-        <router-link to="/">Home</router-link> |
-        <router-link to="/about">About</router-link>
-    </div>
+<div id="app">
+    <Nav />
     <router-view />
 </div>
 </template>
 
-<style lang="scss">
+<script>
+import Nav from './components/partials/Nav.vue';
+export default {
+    name: 'app',
+    components: {
+        Nav
+    }
+}
+</script>
 
+<style lang="scss">
 // #app {
 //     font-family: Avenir, Helvetica, Arial, sans-serif;
 //     -webkit-font-smoothing: antialiased;
@@ -18,9 +24,20 @@
 //     color: #2c3e50;
 // }
 
+h1 {
+    padding: 0;
+    margin-top: 0;
+}
+
+#app {
+    width: 1024px;
+    margin: auto;
+}
+
 #nav {
     padding: 30px;
     text-align: center;
+
     a {
         font-weight: bold;
         color: #2c3e50;

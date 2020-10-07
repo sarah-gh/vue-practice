@@ -1,8 +1,12 @@
 <template>
-<div class="home container">
-    <div class=" row justify-content-center">
+<div class="home container justify-content-center align-items-xl-center">
+    <div class="button-block flex justify-content-center align-items-xl-center">
+        <button v-if="!$auth.isAuthenticated" @click="login" class="button is-xl is-dark hide align-self-center justify-content-center">Sign Up to Browse Events</button>
+        <h3 v-if="$auth.isAuthenticated" class="is-size-3 welcome">Welcome, {{ $auth.user.name }}!</h3>
+    </div>
+    <div class="row justify-content-center align-items-xl-center">
         <add-appointment @add="addItem" />
-        <search-appointment @searchRecords="SearchAppointment" :myKey="filterKay" :myDir="filterDir" @requestKey="changeKey" @requestDir="changeDir" />
+        <search-appointment @searchRecords="SearchAppointment" :myKey="filterKay" :myDir="filterDir" @requestkey="changeKey" @requestDir="changeDir" />
         <AppointmentsList :appointments="filteredApts" @remove="removeItem" @edit="editItem" />
     </div>
 </div>
@@ -82,7 +86,16 @@ export default {
                 aptId: id
             });
             this.appointments[aptIndex][field] = text;
+        },
+        login() {
+            this.$auth.loginWithRedirect();
         }
     }
 };
 </script>
+
+<style scoped>
+.button-block {
+    display: flex;
+}
+</style>
